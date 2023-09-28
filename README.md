@@ -1,35 +1,10 @@
-# portfolio
+# <div align="center"> Sam Ryan portfolio <br> todo: link portfolio io</div>
 
-This template should help get you started developing with Vue 3 in Vite.
+# todo: screenshot
 
-## Recommended IDE Setup
+# Process
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+-   I wrote a todo list in [./todo.md](./todo.md)
+-   I wrote a design in [./images/design.png](./images/design.png)
+-   Working sequentially, I completed the content first
+-   Using material UI I created a responsive layout and styled the page

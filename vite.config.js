@@ -4,7 +4,7 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
 // Determine the base URL for GitHub Pages based on your repository name
-const base = "/iamsahm.github.io/"; // Replace with your repository name
+const base = "/your-repository-name/"; // Replace with your repository name
 
 // https://vitejs.dev/config/
 export default defineConfig({
