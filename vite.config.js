@@ -1,16 +1,21 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from "node:url";
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+
+// Determine the base URL for GitHub Pages based on your repository name
+const base = "/iamsahm.github.io/"; // Replace with your repository name
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
-})
+    base, // Set the base URL
+    plugins: [vue()],
+    resolve: {
+        alias: {
+            "@": fileURLToPath(new URL("./src", import.meta.url)),
+        },
+    },
+    build: {
+        outDir: "docs", // Output directory for GitHub Pages
+    },
+});
