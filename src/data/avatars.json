@@ -1,0 +1,29 @@
+[
+    { "name": "Sam", "src": "https://avatars.githubusercontent.com/iamsahm" },
+    { "name": "Oli", "src": "https://avatars.githubusercontent.com/OliLoftus" },
+    {
+        "name": "Rich",
+        "src": "https://avatars.githubusercontent.com/rashworth7"
+    },
+    {
+        "name": "Charlotte",
+        "src": "https://avatars.githubusercontent.com/charlottemothersole"
+    },
+    {
+        "name": "Hazel",
+        "src": "https://avatars.githubusercontent.com/hash-smy"
+    },
+    {
+        "name": "Fatih",
+        "src": "https://avatars.githubusercontent.com/fatih-celebi"
+    },
+    { "name": "Asha", "src": "https://avatars.githubusercontent.com/Asha-Ali" },
+    {
+        "name": "Amina",
+        "src": "https://avatars.githubusercontent.com/M1M1-A"
+    },
+    {
+        "name": "Lydia",
+        "src": "https://avatars.githubusercontent.com/LydiaNtafa"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    { "name": "Home", "path": "/", "testid": "home-link" },
+    { "name": "Projects", "path": "/projects", "testid": "projects-link" },
+    {
+        "name": "LinkedIn",
+        "path": "/LinkedIn",
+        "testid": "linkedin-link",
+        "img": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
+    },
+    {
+        "name": "GitHub",
+        "path": "/GitHub",
+        "testid": "github-link",
+        "img": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+    },
+    {
+        "name": "Medium",
+        "path": "/Medium",
+        "testid": "medium-link",
+        "img": "require(\"../images/medium.png\")"
+    }
+]
