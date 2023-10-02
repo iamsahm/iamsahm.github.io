@@ -14,12 +14,6 @@
                 "link": "https://github.com/iamsahm/cheese_api",
                 "description": "Back end written in Node.js with Express, interacting with a bespoke MongoDB database of cheeses as well as a collection for users and ratings",
                 "testid": "backend-repo"
-            },
-            {
-                "name": "Deployed",
-                "link": "https://cheese-frontend.vercel.app/",
-                "description": "Deployed frontend",
-                "testid": "deployed"
             }
         ],
         "avatars": ["Sam", "Oli", "Rich", "Charlotte", "Hazel"]
