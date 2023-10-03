@@ -14,6 +14,12 @@
                 "link": "https://github.com/iamsahm/cheese_api",
                 "description": "Back end written in Node.js with Express, interacting with a bespoke MongoDB database of cheeses as well as a collection for users and ratings",
                 "testid": "backend-repo"
+            },
+            {
+                "name": "Deployed",
+                "link": "https://cheese-frontend-cyan.vercel.app/",
+                "description": "Deployed frontend",
+                "testid": "deployed"
             }
         ],
         "avatars": ["Sam", "Oli", "Rich", "Charlotte", "Hazel"]
@@ -53,5 +59,17 @@
             }
         ],
         "avatars": ["Sam", "Fatih", "Asha", "Amina", "Lydia"]
+    },
+    {
+        "name": "Bank Tech Test",
+        "description": "A mock technical assessment set by Maker's Academy",
+        "links": [
+            {
+                "name": "Repo",
+                "link": "https://github.com/iamsahm/bank-tech-test.git",
+                "description": "A small bank account application that runs in a Node REPL",
+                "testid": "bank-repo"
+            }
+        ]
     }
 ]
