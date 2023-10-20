@@ -26,7 +26,7 @@
     },
     {
         "name": "GigList",
-        "description": "A front-end application for listing and favouriting gigs supplied by a static backend",
+        "description": "An events listing application",
         "links": [
             {
                 "name": "Frontend",
@@ -70,6 +70,7 @@
                 "description": "A small bank account application that runs in a Node REPL",
                 "testid": "bank-repo"
             }
-        ]
+        ],
+        "avatars": ["Sam"]
     }
 ]
