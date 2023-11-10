@@ -7,7 +7,7 @@ import WelcomeItem from "./WelcomeItem.vue";
         <template #heading>
             Hi, I'm Sam, a software developer with a passion for problem-solving
             in collaborative teams. I'm a career switcher with a background in
-            sound engineering and fine food retail.
+            sound engineering and development/management of small food business.
         </template>
         <template #description>
             I'm currently looking for an oppportunity as a junior developer,

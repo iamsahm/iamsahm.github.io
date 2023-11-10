@@ -8,7 +8,9 @@
             :data-testid="link.testid"
             class="link-description"
         >
-            <a class="href" :href="link.link">{{ link.name }}</a>
+            <a class="href" :href="link.link" target="_blank">{{
+                link.name
+            }}</a>
             {{ link.description }}
         </p>
         <AvatarGroup :avatars="article.avatars" />
