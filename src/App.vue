@@ -6,6 +6,7 @@
                     v-for="item in NavItems"
                     :key="item.path"
                     :to="item.path"
+                    :target="item.external ? '_blank' : '_self'"
                 >
                     {{ item.name }}
                 </RouterLink>
@@ -34,27 +35,25 @@ export default {
 </script>
 
 <style scoped>
-html,
-body {
-    height: 100%;
-    margin: 0;
-}
-
 #app {
-    height: 100%;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 header {
     line-height: 1.5;
     max-height: 100vh;
+    justify-content: center;
 }
-
 nav {
     width: 100%;
     font-size: 1rem;
     text-align: center;
     margin-top: 2rem;
 }
-
 nav a.router-link-exact-active {
     color: var(--color-text);
 }
@@ -73,28 +72,16 @@ nav a:first-of-type {
     border: 0;
 }
 
-@media (min-width: 1024px) {
-    header {
-        display: flex;
-        place-items: center;
-    }
+#app::-webkit-scrollbar {
+    width: 8px;
+}
 
-    .logo {
-        margin: 0 2rem 0 0;
-    }
+#app::-webkit-scrollbar-track {
+    background-color: var(--color-background);
+}
 
-    header .wrapper {
-        display: flex;
-        place-items: flex-start;
-        flex-wrap: wrap;
-    }
-
-    nav {
-        text-align: left;
-        font-size: 0.8rem;
-
-        padding: 1rem 0;
-        margin-top: 1rem;
-    }
+#app::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 10px;
 }
 </style>

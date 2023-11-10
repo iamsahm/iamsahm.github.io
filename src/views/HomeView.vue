@@ -24,16 +24,17 @@ import Experience from "../data/Experience.json";
 
 <style>
 .experience-image {
-    height: 40px;
-    width: 40px;
+    height: 2rem;
+    width: auto;
 }
 
 .experience {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .experience-item {
-    margin: 0 10px; /* Add spacing between images if needed */
+    margin: 0 10px;
 }
 </style>

@@ -4,6 +4,7 @@
             <h3>
                 <slot name="heading"></slot>
             </h3>
+            <p><slot name="collaboration"> </slot></p>
         </div>
     </div>
 </template>
@@ -12,19 +13,14 @@
 .item {
     display: flex;
     position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .details {
     margin: 4rem;
-}
-
-i {
-    display: flex;
-    place-items: center;
-    place-content: center;
-    width: 32px;
-    height: 32px;
-    color: var(--color-text);
 }
 
 h3 {
@@ -32,8 +28,5 @@ h3 {
     font-weight: 500;
     margin-bottom: 0.4rem;
     color: var(--color-heading);
-}
-
-@media (min-width: 1024px) {
 }
 </style>

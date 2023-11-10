@@ -39,6 +39,7 @@ export default {
     margin: 1rem;
 }
 .Project {
+    box-sizing: border-box;
     border: 1px solid rgba(0, 0, 0, 0.26);
     border-radius: 1rem;
     padding: 1rem;
@@ -47,16 +48,20 @@ export default {
     background-color: #131212;
     margin-left: auto;
     margin-right: auto;
-    max-width: 600px;
     font-size: 1.2rem;
-    line-height: 1.5;
     color: #808080a2;
 }
+/* 
 .Project:hover {
-    /* set the border top and bottom right radius to 0 with a .3s transition */
     border-radius: 0;
     transition: border-radius 0.5s ease-in-out,
         background-color 0.5s ease-in-out;
     background-color: #131212d8;
+} */
+
+@media (min-width: 1024px) {
+    .Project {
+        width: 70vw;
+    }
 }
 </style>

@@ -5,18 +5,21 @@
         "name": "LinkedIn",
         "path": "/LinkedIn",
         "testid": "linkedin-link",
-        "img": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
+        "img": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg",
+        "external": true
     },
     {
         "name": "GitHub",
         "path": "/GitHub",
         "testid": "github-link",
-        "img": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+        "img": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+        "external": true
     },
     {
         "name": "Medium",
         "path": "/Medium",
         "testid": "medium-link",
-        "img": "require(\"../images/medium.png\")"
+        "img": "require(\"../images/medium.png\")",
+        "external": true
     }
 ]
