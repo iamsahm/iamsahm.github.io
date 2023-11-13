@@ -1,5 +1,24 @@
 [
     {
+        "name": "Dev Top Trumps",
+        "description": "A game of top trumps comparing different programming languages. I used this project to develop my understanding of vanilla JS and it's interaction with raw HTML and CSS.",
+        "links": [
+            {
+                "name": "Repo",
+                "link": "https://github.com/iamsahm/top-trumps",
+                "description": "This project is a work in progress, i'm still developing it!",
+                "testid": "frontend-repo"
+            },
+            {
+                "name": "Deployed",
+                "link": "https://devtoptrumps.onrender.com/",
+                "description": "Deployed with Render",
+                "testid": "deployed"
+            }
+        ],
+        "avatars": ["Sam"]
+    },
+    {
         "name": "Brielievers",
         "description": "Brielievers is a cheese Sommelier app that allows users to rate, view and get recommendations on over 800 international cheeses. Written using the MERN stack with a bespoke Mongo Atlas database of cheeses. Working in a team of five, we used Agile methodologies to deliver a full-stack app in two weeks.",
         "links": [

@@ -6,7 +6,7 @@
                     v-for="item in NavItems"
                     :key="item.path"
                     :to="item.path"
-                    :target="item.external ? '_blank' : '_self'"
+    :target="item.external ? '_blank' : '_self'"
                 >
                     {{ item.name }}
                 </RouterLink>
