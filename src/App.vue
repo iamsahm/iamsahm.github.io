@@ -3,13 +3,22 @@
         <div class="wrapper">
             <nav>
                 <RouterLink
-                    v-for="item in NavItems"
+                    v-for="item in NavItems.slice(0, 2)"
                     :key="item.path"
                     :to="item.path"
-    :target="item.external ? '_blank' : '_self'"
+                    :target="item.external ? '_blank' : '_self'"
                 >
                     {{ item.name }}
                 </RouterLink>
+                <a
+                    v-for="item in NavItems.slice(2)"
+                    :key="item.path"
+                    :href="item.path"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {{ item.name }}
+                </a>
             </nav>
         </div>
     </header>
