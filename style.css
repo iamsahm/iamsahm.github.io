@@ -1,0 +1,432 @@
+@import url("https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap");
+
+:root {
+  --bg-yellow: #ffed86;
+  --bg-blue: #82add7;
+  --bg-green: #8dd18f;
+  --bg-red: #ff7e64;
+  --bg-purple: #ae79b8;
+  --font-color-dark: #212121;
+  --font-color-medium: #424242;
+  --font-color-light: #fdffee;
+  --font-background-highlight: rgba(255, 255, 255, 0.2);
+  font-family: "Arial", sans-serif;
+  --typing-timer-per-character: 0.1s;
+  --typing-timer-delay: 1s;
+  --typing-font-family: "Reddit Mono", monospace;
+  --typing-blink-freq: 0.5s;
+}
+
+body,
+html {
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+body::-webkit-scrollbar,
+html::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track {
+  background: rgba(74, 217, 228, 0.3);
+}
+
+body::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb {
+  background: rgba(74, 217, 228, 0.2);
+  border-radius: 2px;
+  border: 1px solid rgba(74, 217, 228, 0.3);
+}
+
+body > *,
+html > * {
+  scroll-snap-align: start;
+}
+
+section {
+  height: 100vh;
+  display: flex;
+  color: var(--font-color-dark);
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: var(--font-background-highlight);
+  box-shadow: 0 0 0 10px var(--font-background-highlight);
+}
+
+header {
+  background: var(--bg-red);
+  color: var(--font-color-light);
+  padding: 1rem;
+}
+
+.inner-container {
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.hero {
+  background: var(--bg-yellow);
+  position: relative;
+}
+
+.hero h2 {
+  margin: 0;
+  color: var(--font-color-dark);
+  font-size: clamp(3rem, 5vw, 5rem);
+}
+
+.intro-container {
+  display: flex;
+  position: absolute;
+  top: 15%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  height: 50%;
+}
+
+.cta > * {
+  margin: 0;
+}
+
+.typewriter-container {
+  width: 100%;
+}
+
+.typewriter-container ul,
+.typewriter-container p {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.quick-links-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.quick-links-container > * {
+  font-size: 0.8rem;
+  display: flex;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.quick-links-container img {
+  height: 20px;
+  margin-right: 0.5rem;
+}
+
+.projects {
+  background: var(--bg-blue);
+  color: var(--font-color-light);
+  display: flex;
+  flex-direction: column;
+}
+
+.projects .left-text {
+  font-size: 2rem;
+  padding: 2rem;
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 100%;
+}
+
+.card {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1rem;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+img {
+  max-height: 100px;
+}
+
+.tech-container {
+  display: flex;
+  gap: 1rem;
+  align-self: flex-end;
+  display: none;
+}
+
+.tech-container img {
+  width: 50px;
+  filter: grayscale(90%);
+}
+
+.contact {
+  background: var(--bg-green);
+  color: var(--font-color-light);
+  justify-content: center;
+  align-items: center;
+}
+
+footer {
+  background: var(--bg-purple);
+  color: var(--font-color-light);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: top;
+}
+
+footer > * {
+  align-self: center;
+}
+
+footer > a > img {
+  filter: invert(1);
+  height: 1.5rem;
+}
+
+.typewriter-container {
+  font-family: var(--typing-font-family);
+  font-size: clamp(0.5rem, 1vw + 0.5rem, 2rem);
+  display: flex;
+  color: var(--font-color-medium);
+}
+
+.typewriter {
+  position: relative;
+  width: max-content;
+}
+
+.typewriter::before,
+.typewriter::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.typewriter:after {
+  width: 0.125em;
+  background: var(--font-color-medium);
+}
+
+.typewriter-15::before,
+.typewriter-26::before,
+.typewriter-19::before,
+.typewriter-4::before {
+  background: var(--bg-yellow);
+}
+
+.typewriter-15::before {
+  animation: typing calc(var(--typing-timer-per-character) * 15) steps(15)
+    var(--typing-timer-delay) forwards;
+}
+
+.typewriter-15::after {
+  animation: typing calc(var(--typing-timer-per-character) * 15) steps(15)
+      var(--typing-timer-delay) forwards,
+    blink-caret var(--typing-blink-freq) steps(1) infinite,
+    hide-caret
+      calc(var(--typing-timer-delay) + var(--typing-timer-per-character) * 15)
+      steps(1) forwards;
+}
+
+.typewriter-26::before {
+  animation: typing calc(var(--typing-timer-per-character) * 26) steps(26)
+    calc(var(--typing-timer-delay) * 2 + var(--typing-timer-per-character) * 15)
+    forwards;
+}
+
+.typewriter-26::after {
+  opacity: 0;
+  animation: show-caret
+      calc(
+        var(--typing-timer-delay) * 1 + var(--typing-timer-per-character) * 15
+      )
+      steps(1) forwards,
+    typing calc(var(--typing-timer-per-character) * 26) steps(26)
+      calc(
+        var(--typing-timer-delay) * 2 + var(--typing-timer-per-character) * 15
+      )
+      forwards,
+    blink-caret var(--typing-blink-freq) steps(1)
+      calc(
+        var(--typing-timer-delay) * 1 + var(--typing-timer-per-character) * 15
+      )
+      infinite,
+    hide-caret
+      calc(
+        var(--typing-timer-delay) * 2 + var(--typing-timer-per-character) * 15 +
+          var(--typing-timer-per-character) * 26
+      )
+      steps(1) forwards;
+}
+
+.typewriter-19::before {
+  animation: typing calc(var(--typing-timer-per-character) * 19) steps(19)
+    calc(
+      var(--typing-timer-delay) * 3 + var(--typing-timer-per-character) * 15 +
+        var(--typing-timer-per-character) * 26
+    )
+    forwards;
+}
+
+.typewriter-19::after {
+  opacity: 0;
+  animation: show-caret
+      calc(
+        var(--typing-timer-delay) * 2 + var(--typing-timer-per-character) * 15 +
+          var(--typing-timer-per-character) * 26
+      )
+      steps(1) forwards,
+    typing calc(var(--typing-timer-per-character) * 19) steps(19)
+      calc(
+        var(--typing-timer-delay) * 3 + var(--typing-timer-per-character) * 15 +
+          var(--typing-timer-per-character) * 26
+      )
+      forwards,
+    blink-caret var(--typing-blink-freq) steps(1)
+      calc(
+        var(--typing-timer-delay) * 2 + var(--typing-timer-per-character) * 15 +
+          var(--typing-timer-per-character) * 26
+      )
+      infinite,
+    hide-caret
+      calc(
+        var(--typing-timer-delay) * 3 + var(--typing-timer-per-character) * 15 +
+          var(--typing-timer-per-character) * 26 +
+          var(--typing-timer-per-character) * 19
+      )
+      steps(1) forwards;
+}
+
+.typewriter-4::before {
+  animation: typing calc(var(--typing-timer-per-character) * 4) steps(4)
+    calc(
+      var(--typing-timer-delay) * 4 + var(--typing-timer-per-character) * 15 +
+        var(--typing-timer-per-character) * 26 +
+        var(--typing-timer-per-character) * 19
+    )
+    forwards;
+}
+
+.typewriter-4::after {
+  opacity: 0;
+  animation: show-caret
+      calc(
+        var(--typing-timer-delay) * 3 + var(--typing-timer-per-character) * 15 +
+          var(--typing-timer-per-character) * 26 +
+          var(--typing-timer-per-character) * 19
+      )
+      steps(1) forwards,
+    typing calc(var(--typing-timer-per-character) * 4) steps(4)
+      calc(
+        var(--typing-timer-delay) * 4 + var(--typing-timer-per-character) * 15 +
+          var(--typing-timer-per-character) * 26 +
+          var(--typing-timer-per-character) * 19
+      )
+      forwards,
+    blink-caret var(--typing-blink-freq) steps(1)
+      calc(
+        var(--typing-timer-delay) * 3 + var(--typing-timer-per-character) * 15 +
+          var(--typing-timer-per-character) * 26 +
+          var(--typing-timer-per-character) * 19
+      )
+      infinite,
+    hide-caret
+      calc(
+        var(--typing-timer-delay) * 6 + var(--typing-timer-per-character) * 15 +
+          var(--typing-timer-per-character) * 26 +
+          var(--typing-timer-per-character) * 19 +
+          var(--typing-timer-per-character) * 4
+      )
+      steps(1) forwards;
+}
+
+@keyframes typing {
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes hide-caret {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes show-caret {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes blink-caret {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 500px) {
+  header .inner-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .typewriter-container {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 600px) {
+  nav {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 800px) {
+  .cards-container {
+    flex-direction: row;
+  }
+
+  .card {
+    flex-direction: column-reverse;
+  }
+}
+
+/* make the scrollbar pong */
