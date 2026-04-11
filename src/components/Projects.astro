@@ -1,0 +1,389 @@
+---
+interface Project {
+  name: string;
+  description: string;
+  link?: string;
+  github: string;
+  tech: string[];
+  image?: string;
+}
+
+const projects: Project[] = [
+  {
+    name: "Cookie Monster",
+    description: "An animatronic Cookie Monster that sings 'C is for Cookie' when you walk by. Combines electronics and mechanical engineering with LLM-assisted C++ development to create real-time FFT-driven lip-sync and body movement.",
+    github: "https://github.com/iamsahm/cookie-monster",
+    tech: ["ESP32", "C++", "PlatformIO"],
+    image: "/cookie-monster.png"
+  },
+  {
+    name: "Train Board",
+    description: "Lightweight frontend app that aggregates data from two major rail APIs to display live departure information.",
+    link: "https://train-board-woad.vercel.app/",
+    github: "https://github.com/iamsahm/train-board",
+    tech: ["Next.js", "TypeScript"],
+    image: "/train-board.png"
+  },
+  {
+    name: "Lighthouse Automation",
+    description: "Automation script that runs Google Lighthouse audits across multiple URLs and generates HTML reports.",
+    github: "https://github.com/iamsahm/Lighthouse-BF",
+    tech: ["Node.js", "Lighthouse"]
+  }
+];
+---
+
+<section class="projects" id="projects">
+  <div class="projects-header">
+    <h2>Projects</h2>
+    <p class="projects-note">
+      My day job consists of development work with <a href="https://www.drivvn.com" target="_blank">drivvn</a>,
+      building e-commerce platforms for automotive retailers. Here are some personal projects:
+    </p>
+  </div>
+
+  <div class="carousel-container">
+    <div class="nav-zone prev-zone">
+      <button class="carousel-btn prev" aria-label="Previous project">
+        <span class="arrow">←</span>
+      </button>
+    </div>
+
+    <div class="carousel-track">
+      {projects.map((project, index) => (
+        <article class="project-card" data-index={index}>
+          <div class="card-content">
+            <h3>{project.name}</h3>
+            <p>{project.description}</p>
+            <div class="tech-tags">
+              {project.tech.map((t) => (
+                <span class="tag">{t}</span>
+              ))}
+            </div>
+            <div class="project-links">
+              {project.link && (
+                <a href={project.link} target="_blank" class="link-live">
+                  View Live
+                  <span class="arrow">→</span>
+                </a>
+              )}
+              <a href={project.github} target="_blank" class="link-github">
+                GitHub
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+          {project.image && (
+            <div class="project-image">
+              <img src={project.image} alt={project.name} />
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+
+    <div class="nav-zone next-zone">
+      <button class="carousel-btn next" aria-label="Next project">
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="carousel-dots">
+    {projects.map((_, index) => (
+      <button class="dot" data-index={index} aria-label={`Go to project ${index + 1}`}></button>
+    ))}
+  </div>
+</section>
+
+<script>
+  const track = document.querySelector('.carousel-track') as HTMLElement;
+  const container = document.querySelector('.carousel-container') as HTMLElement;
+  const cards = document.querySelectorAll('.project-card');
+  const prevZone = document.querySelector('.prev-zone');
+  const nextZone = document.querySelector('.next-zone');
+  const dots = document.querySelectorAll('.dot');
+  let currentIndex = 0;
+  const total = cards.length;
+
+  function updateCarousel() {
+    // Each card is 85% + 5% margins = 90% per card
+    const slideWidth = container.offsetWidth * 0.90;
+    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+    });
+  }
+
+  prevZone?.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + total) % total;
+    updateCarousel();
+  });
+
+  nextZone?.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % total;
+    updateCarousel();
+  });
+
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      currentIndex = parseInt(dot.getAttribute('data-index') || '0');
+      updateCarousel();
+    });
+  });
+
+  // Swipe support
+  let startX = 0;
+  let isDragging = false;
+
+  container?.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  });
+
+  container?.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        currentIndex = (currentIndex + 1) % total;
+      } else {
+        currentIndex = (currentIndex - 1 + total) % total;
+      }
+      updateCarousel();
+    }
+    isDragging = false;
+  });
+
+  updateCarousel();
+</script>
+
+<style>
+  .projects {
+    background: var(--color-green);
+    color: var(--color-text-dark);
+    padding: var(--spacing-lg) 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--spacing-md);
+    overflow: hidden;
+  }
+
+  .projects-header {
+    text-align: center;
+    padding: 0 var(--spacing-lg);
+  }
+
+  .projects h2 {
+    margin: 0;
+    font-size: var(--font-size-h2);
+  }
+
+  .projects-note {
+    margin: var(--spacing-sm) auto 0;
+    font-size: var(--font-size-small);
+    max-width: 500px;
+  }
+
+  .projects-note a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .carousel-container {
+    display: block;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  .prev-zone {
+    left: 0;
+  }
+
+  .next-zone {
+    right: 0;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.3s ease;
+  }
+
+  .carousel-btn {
+    background: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .carousel-btn .arrow {
+    color: rgba(0, 0, 0, 0.3);
+    transition: color 0.2s ease;
+  }
+
+  .nav-zone:hover .carousel-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .nav-zone:hover .carousel-btn .arrow {
+    color: var(--color-red);
+  }
+
+  .carousel-btn:hover {
+    background: white;
+  }
+
+  .project-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin: 0 2.5%;
+    box-sizing: border-box;
+    width: 85%;
+    flex-shrink: 0;
+  }
+
+  .project-card:first-child {
+    margin-left: 7.5%;
+  }
+
+  .project-card:last-child {
+    margin-right: 7.5%;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    flex: 1;
+  }
+
+  .project-image {
+    max-width: 200px;
+    border-radius: 4px;
+    align-self: center;
+  }
+
+  .project-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .project-card h3 {
+    margin: 0;
+    font-size: var(--font-size-h2);
+  }
+
+  .project-card p {
+    margin: 0;
+    font-size: var(--font-size-body);
+    color: var(--color-text-medium);
+  }
+
+  @media (min-width: 600px) {
+    .project-card {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .project-image {
+      align-self: auto;
+      flex-shrink: 0;
+    }
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: var(--color-green);
+    color: var(--color-text-dark);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-family: var(--font-mono);
+  }
+
+  .project-links {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+  }
+
+  .project-links a {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: var(--font-size-body);
+    color: var(--color-text-dark);
+    text-decoration: none;
+  }
+
+  .project-links a:hover {
+    text-decoration: underline;
+  }
+
+  .project-links .arrow {
+    color: var(--color-red);
+  }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .dot.active {
+    background: var(--color-text-dark);
+  }
+
+  .dot:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .dot.active:hover {
+    background: var(--color-text-dark);
+  }
+</style>

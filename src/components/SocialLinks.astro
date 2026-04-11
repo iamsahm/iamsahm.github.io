@@ -1,0 +1,28 @@
+---
+interface Props {
+  github?: string;
+  linkedin?: string;
+}
+
+const { github, linkedin } = Astro.props;
+---
+
+<div class="links-container">
+  {github && (
+    <a href={github} target="_blank" rel="noopener noreferrer">Github</a>
+  )}
+  {linkedin && (
+    <a href={linkedin} target="_blank" rel="noopener noreferrer">Linkedin</a>
+  )}
+</div>
+
+<style>
+  .links-container {
+    display: flex;
+    gap: var(--spacing-sm);
+  }
+
+  .links-container a {
+    color: var(--color-text-light);
+  }
+</style>

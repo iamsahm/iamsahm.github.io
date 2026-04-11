@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Projects from '../components/Projects.astro';
+import About from '../components/About.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+// ============================================================================
+// EDIT YOUR CONTENT HERE
+// ============================================================================
+
+const name = "Sam Holiday";
+
+const tagline = "Product focussed software engineer who loves building things that matter.";
+
+const interests = [
+  "problem solving",
+  "building stuff with people",
+  "learning new things",
+  "working in a product-focussed team"
+];
+
+const bio = `I work as a frontend developer but I love the full stack.`;
+
+const socialLinks = {
+  github: "https://github.com/iamsahm",
+  linkedin: "https://linkedin.com/in/samrholiday",
+};
+
+const formspreeEndpoint = "https://formspree.io/f/xkopdvve";
+
+// reCAPTCHA settings (configure in .env file)
+const enableRecaptcha = import.meta.env.PUBLIC_ENABLE_RECAPTCHA === "true";
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || "";
+
+// ============================================================================
+---
+
+<Layout title={`${name} | Software Developer`} description={tagline}>
+  <main>
+    <Hero name={name} tagline={tagline} interests={interests} />
+    
+    <About bio={bio} />
+
+    <Projects />
+
+    <ContactForm
+      formspreeEndpoint={formspreeEndpoint}
+      enableRecaptcha={enableRecaptcha}
+      recaptchaSiteKey={recaptchaSiteKey}
+    />
+  </main>
+
+  <footer class="footer">
+    <a href="#top" class="back-to-top">
+      back to the top
+      <span class="arrow">↑</span>
+    </a>
+    <p class="copyright">&copy; {new Date().getFullYear()} {name}</p>
+    <SocialLinks github={socialLinks.github} linkedin={socialLinks.linkedin} />
+  </footer>
+</Layout>
+
+<style>
+  main {
+    overflow: visible;
+  }
+
+  .footer {
+    background: var(--color-purple);
+    color: var(--color-text-light);
+    padding: var(--spacing-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    scroll-snap-align: end;
+  }
+
+  .back-to-top {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--color-text-light);
+  }
+
+  .back-to-top .arrow {
+    color: var(--color-text-light);
+  }
+
+  .copyright {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,218 @@
+---
+interface Props {
+  name: string;
+  tagline: string;
+  interests?: string[];
+}
+
+const { name, tagline, interests = [] } = Astro.props;
+---
+
+<header class="header" id="top">
+  <div class="container header-inner">
+    <h1>{name}</h1>
+    <nav>
+      <a href="https://github.com/iamsahm" target="_blank">Github</a>
+      <a href="https://linkedin.com/in/samrholiday" target="_blank">Linkedin</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="about">
+  <div class="intro-container">
+    <div class="cta">
+      <h2>Hi, I'm {name.split(' ')[0]}</h2>
+    </div>
+
+    {interests.length > 0 && (
+      <div class="typewriter-container">
+        <p>I like&nbsp;</p>
+        <div class="typewriter-lines">
+          {interests.map((interest, i) => (
+            <div class="typewriter-line">
+              <span class="typewriter-visible"></span><span class="typewriter-cursor" style={i > 0 ? "display: none;" : ""}>|</span><span class="typewriter-hidden">{interest}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <script>
+      const typingSpeed = 100;
+      const delayBetweenLines = 1000;
+
+      const lines = document.querySelectorAll('.typewriter-line');
+      let lineIndex = 0;
+
+      function typeLine() {
+        if (lineIndex >= lines.length) return;
+
+        const line = lines[lineIndex];
+        const visible = line.querySelector('.typewriter-visible');
+        const hidden = line.querySelector('.typewriter-hidden');
+        const cursor = line.querySelector('.typewriter-cursor');
+        const fullText = hidden.textContent;
+        let charIndex = 0;
+
+        cursor.style.display = 'inline';
+
+        function typeChar() {
+          if (charIndex < fullText.length) {
+            visible.textContent = fullText.slice(0, charIndex + 1);
+            hidden.textContent = fullText.slice(charIndex + 1);
+            charIndex++;
+            setTimeout(typeChar, typingSpeed);
+          } else {
+            lineIndex++;
+            if (lineIndex < lines.length) {
+              setTimeout(() => {
+                cursor.style.display = 'none';
+                typeLine();
+              }, delayBetweenLines);
+            }
+          }
+        }
+
+        setTimeout(typeChar, lineIndex === 0 ? delayBetweenLines : 0);
+      }
+
+      typeLine();
+    </script>
+  </div>
+
+  <div class="quick-links-container">
+    <a href="#projects">
+      see my stuff
+      <span class="arrow">→</span>
+    </a>
+    <a href="#contact">
+      send me a message
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .header {
+    background: var(--color-red);
+    color: var(--color-text-light);
+    padding: var(--spacing-sm);
+    scroll-snap-align: start;
+  }
+
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header h1 {
+    font-size: var(--font-size-body);
+    margin: 0;
+  }
+
+  .header nav {
+    display: flex;
+    gap: var(--spacing-sm);
+  }
+
+  .header nav a {
+    color: var(--color-text-light);
+  }
+
+  .header nav a:hover {
+    background-color: var(--color-highlight);
+  }
+
+  .hero {
+    background: var(--color-yellow);
+    position: relative;
+    flex-direction: column;
+  }
+
+  .intro-container {
+    display: flex;
+    position: absolute;
+    top: 15%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-sm);
+    height: 50%;
+  }
+
+  .cta h2 {
+    margin: 0;
+    color: var(--color-text-dark);
+    font-size: var(--font-size-hero);
+  }
+
+  /* Typewriter styles */
+  .typewriter-container {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-typewriter);
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text-medium);
+    width: 100%;
+  }
+
+  .typewriter-container p {
+    padding: 0;
+    margin: 0;
+  }
+
+  .typewriter-lines {
+    display: block;
+  }
+
+  .typewriter-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .typewriter-hidden {
+    visibility: hidden;
+  }
+
+  .typewriter-cursor {
+    animation: blink-caret 0.5s steps(1) infinite;
+  }
+
+  @keyframes blink-caret {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Quick links */
+  .quick-links-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-bottom: var(--spacing-lg);
+    padding-right: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--spacing-xs);
+  }
+
+  .quick-links-container a {
+    font-size: var(--font-size-small);
+    display: flex;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+    color: var(--color-text-dark);
+  }
+
+  .quick-links-container .arrow {
+    color: var(--color-red);
+  }
+
+  @media (min-width: 500px) {
+    .typewriter-container {
+      flex-direction: row;
+    }
+  }
+</style>

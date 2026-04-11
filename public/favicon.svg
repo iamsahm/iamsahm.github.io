@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Handdrawn style blue S favicon -->
+  <rect width="100" height="100" rx="12" fill="#1a1a2e"/>
+  <!-- Wobbly hand-drawn S path -->
+  <path
+    d="M65 28 C55 22, 38 24, 32 32 C26 40, 30 48, 42 52 C54 56, 62 60, 62 68 C62 78, 48 82, 36 78 C28 75, 26 72, 28 68"
+    stroke="#4da6ff"
+    stroke-width="8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <!-- Little sketch marks for personality -->
+  <circle cx="68" cy="30" r="3" fill="#4da6ff" opacity="0.6"/>
+  <circle cx="30" cy="75" r="2" fill="#4da6ff" opacity="0.5"/>
+</svg>

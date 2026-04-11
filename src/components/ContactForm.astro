@@ -1,0 +1,248 @@
+---
+interface Props {
+  formspreeEndpoint: string;
+  enableRecaptcha?: boolean;
+  recaptchaSiteKey?: string;
+}
+
+const { formspreeEndpoint, enableRecaptcha = false, recaptchaSiteKey = "" } = Astro.props;
+---
+
+<section class="contact" id="contact">
+  <div class="contact-content">
+    <h2>Say hello</h2>
+    <p class="contact-intro">Something to say? Let me know!</p>
+
+    <form
+      action={formspreeEndpoint}
+      method="POST"
+      class="contact-form"
+      id="contact-form"
+      data-recaptcha={enableRecaptcha && recaptchaSiteKey ? "true" : "false"}
+    >
+      <div class="form-group">
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          class="form-input"
+          placeholder="Name"
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="form-input"
+          placeholder="Email"
+        />
+      </div>
+
+      <div class="form-group">
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows="4"
+          class="form-input form-textarea"
+          placeholder="Message"
+        ></textarea>
+      </div>
+
+      {enableRecaptcha && recaptchaSiteKey && (
+        <div class="g-recaptcha" data-sitekey={recaptchaSiteKey}></div>
+      )}
+
+      <button type="submit" class="submit-btn">
+        <span class="btn-text">Send</span>
+        <span class="btn-loading" hidden>Sending...</span>
+      </button>
+    </form>
+
+    <div id="form-success" class="form-message form-success" hidden>
+      Thanks for your message! I'll get back to you soon.
+    </div>
+
+    <div id="form-error" class="form-message form-error" hidden>
+      Oops! Something went wrong. Please try again.
+    </div>
+  </div>
+</section>
+
+{enableRecaptcha && recaptchaSiteKey && (
+  <script is:inline src="https://www.google.com/recaptcha/api.js" async defer></script>
+)}
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const successMessage = document.getElementById('form-success');
+  const errorMessage = document.getElementById('form-error');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const recaptchaEnabled = form.dataset.recaptcha === 'true';
+
+    // Validate reCAPTCHA if enabled
+    if (recaptchaEnabled) {
+      const recaptchaResponse = (window as any).grecaptcha?.getResponse();
+      if (!recaptchaResponse) {
+        errorMessage!.textContent = 'Please complete the reCAPTCHA.';
+        errorMessage!.hidden = false;
+        return;
+      }
+    }
+
+    const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
+    const btnText = submitBtn.querySelector('.btn-text') as HTMLElement;
+    const btnLoading = submitBtn.querySelector('.btn-loading') as HTMLElement;
+
+    btnText.hidden = true;
+    btnLoading.hidden = false;
+    submitBtn.disabled = true;
+    errorMessage!.hidden = true;
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        form.reset();
+        form.hidden = true;
+        successMessage!.hidden = false;
+        errorMessage!.hidden = true;
+        // Reset reCAPTCHA if enabled
+        if (recaptchaEnabled) {
+          (window as any).grecaptcha?.reset();
+        }
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      errorMessage!.textContent = 'Oops! Something went wrong. Please try again.';
+      errorMessage!.hidden = false;
+    } finally {
+      btnText.hidden = false;
+      btnLoading.hidden = true;
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .contact {
+    background: var(--color-peach);
+    color: var(--color-text-dark);
+  }
+
+  .contact-content {
+    padding: var(--spacing-lg);
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .contact h2 {
+    font-size: var(--font-size-h1);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .contact-intro {
+    margin: 0;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--color-text-dark);
+    font-size: var(--font-size-body);
+    font-family: inherit;
+  }
+
+  .form-input::placeholder {
+    color: #666;
+  }
+
+  .form-input:focus {
+    outline: 2px solid var(--color-text-dark);
+    outline-offset: 2px;
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .g-recaptcha {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .submit-btn {
+    align-self: flex-start;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--color-text-dark);
+    color: var(--color-text-light);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-body);
+    border: none;
+    border-radius: var(--border-radius);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .submit-btn:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .btn-loading {
+    display: none;
+  }
+
+  .submit-btn.loading .btn-text {
+    display: none;
+  }
+
+  .submit-btn.loading .btn-loading {
+    display: inline;
+  }
+
+  .form-message {
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-md);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .form-success {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: var(--color-text-dark);
+  }
+
+  .form-error {
+    background-color: var(--color-red);
+    color: var(--color-text-light);
+  }
+</style>
