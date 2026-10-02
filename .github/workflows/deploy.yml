@@ -1,16 +1,9 @@
-# Deploy — build the static site and publish it to samholiday1.
-#
-# Replaces the GitHub Pages workflow. The site is served by the shared
-# `edge-caddy` instance on the box (iamsahm/samholiday-infra), which file-serves
-# /opt/edge/static/samholiday and reads routing from /opt/edge/sites.
-#
-# There is no image to build or push: static files need neither, so this skips
-# the whole GHCR build/pull cycle lookyswappy's backend-deploy.yml uses.
+# Build the static site and publish it to samholiday1, where the shared
+# edge-caddy serves /opt/edge/static/samholiday and reads routing from
+# /opt/edge/sites.
 #
 # Requires DEPLOY_HOST / DEPLOY_USER / DEPLOY_SSH_KEY on this repo's
-# `production` environment. Use a keypair minted for this repo, not
-# lookyswappy's — one repo's leaked secrets should not hand over the other's
-# deploy access.
+# `production` environment, with a keypair minted for this repo alone.
 
 name: Deploy
 
@@ -53,8 +46,7 @@ jobs:
           mkdir -p ~/.ssh
           printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          # Trust-on-first-use. To pin the host key properly instead, add its
-          # fingerprint as a secret and write it here rather than scanning.
+          # Trust-on-first-use; pin the host key via a secret to harden.
           ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
       - name: Publish site files
@@ -63,16 +55,12 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
         run: |
           set -euo pipefail
-          # The infra repo creates and chowns /opt/edge/static; each app owns its
-          # own subdirectory under it.
           ssh -i ~/.ssh/deploy_key "$DEPLOY_USER@$DEPLOY_HOST" \
             'mkdir -p /opt/edge/static/samholiday'
 
-          # --delay-updates and --delete-after keep the swap close to atomic:
-          # every new file lands before any of them is moved into place, and
-          # stale files are removed only once that is done. Without them a
-          # visitor mid-sync can get new HTML whose hashed assets are not up
-          # yet, or old HTML whose assets have already been deleted.
+          # Near-atomic: every file lands before any is moved into place, and
+          # stale files go only once that is done. Without these flags a visitor
+          # mid-sync can get HTML whose hashed assets are not up yet.
           rsync -az --delete-after --delay-updates \
             -e "ssh -i ~/.ssh/deploy_key" \
             dist/ "$DEPLOY_USER@$DEPLOY_HOST:/opt/edge/static/samholiday/"
@@ -90,9 +78,9 @@ jobs:
           SITE=/opt/edge/sites/samholiday.caddy
           BACKUP=/tmp/samholiday.caddy.backup
 
-          # /opt/edge/sites is shared with every other app, so a file that fails
-          # validation must not be left behind — it would fail the *next* app's
-          # deploy too, not just this one. Keep the live copy and restore it.
+          # /opt/edge/sites is shared, so a file that fails validation must be
+          # restored rather than left behind — it would fail the next app's
+          # deploy too.
           if [ -f "$SITE" ]; then cp "$SITE" "$BACKUP"; else rm -f "$BACKUP"; fi
           mv /tmp/samholiday.caddy.staged "$SITE"
 
@@ -109,7 +97,7 @@ jobs:
       - name: Smoke test
         run: |
           set -euo pipefail
-          # First deploy also waits on Caddy's DNS-01 order for the apex.
+          # The first deploy also waits on Caddy's DNS-01 order for the apex.
           for attempt in 1 2 3 4 5 6; do
             if curl -fsS --max-time 20 https://samholiday.co.uk | grep -q "Sam Holiday"; then
               echo "samholiday.co.uk is serving the portfolio"

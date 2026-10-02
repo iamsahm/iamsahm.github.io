@@ -8,10 +8,9 @@ export default defineConfig({
 
   vite: {
     build: {
-      // Emit every script as a file instead of inlining it into the HTML.
-      // Astro inlines small module scripts by default, which would need
-      // script-src 'unsafe-inline' to run under the CSP in
-      // deploy/samholiday.caddy. Externalising them keeps that 'self'.
+      // Astro inlines small module scripts into the HTML by default, which the
+      // CSP in deploy/samholiday.caddy blocks. Emitting them as files keeps
+      // that policy's script-src at 'self'.
       assetsInlineLimit: 0,
     },
   },

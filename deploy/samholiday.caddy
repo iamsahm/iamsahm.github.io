@@ -1,11 +1,5 @@
-# samholiday.co.uk — the static portfolio.
-#
 # Deployed to /opt/edge/sites/samholiday.caddy by this repo's deploy workflow.
-# Owned here, not in samholiday-infra: the infra repo provides the global
-# Caddyfile, the /srv content mount and nothing else. See iamsahm/train-board#1.
-#
-# There is no container and no `edge` network membership — this site is files on
-# disk under /opt/edge/static/samholiday, mounted read-only at /srv/samholiday.
+# Content comes from /opt/edge/static/samholiday, mounted read-only at /srv.
 
 samholiday.co.uk {
 	encode gzip zstd
@@ -20,31 +14,16 @@ samholiday.co.uk {
 		Referrer-Policy "strict-origin-when-cross-origin"
 		-Server
 
-		# Deliberately not lookyswappy's `default-src 'none'` — that is right for
-		# a JSON API and would blank this page completely.
-		#
-		#   style-src 'unsafe-inline'  the markup carries style="display: none"
-		#                              attributes; component CSS itself is external
-		#   connect-src formspree.io   ContactForm.astro fetches the endpoint
-		#   form-action formspree.io   the no-JS fallback posts to it directly
-		#
-		# script-src stays 'self' only because astro.config.mjs sets
-		# assetsInlineLimit: 0 to stop Astro inlining its module scripts. Remove
-		# that and every script becomes inline and is blocked here.
-		#
-		# Turning PUBLIC_ENABLE_RECAPTCHA on also needs script-src and frame-src
-		# to allow https://www.google.com https://www.gstatic.com.
+		# style-src needs 'unsafe-inline' for the style="display: none"
+		# attributes in the markup. script-src stays 'self' only because
+		# astro.config.mjs sets assetsInlineLimit: 0 — without that, Astro
+		# inlines its module scripts and this blocks them.
+		# Enabling reCAPTCHA would also need www.google.com and www.gstatic.com.
 		Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'none'"
 	}
 
-	# Everything Astro emits under _astro/ carries a content hash in its
-	# filename, so a given URL's bytes never change and can be cached hard.
-	# Documents are not fingerprinted and must revalidate, or a cached page
-	# would hide a deploy until it expired.
-	#
-	# The two matchers are mutually exclusive on purpose: a bare `header` block
-	# plus a path-matched override would depend on directive precedence to
-	# resolve, and this does not.
+	# Filenames under _astro/ carry a content hash, documents do not. The
+	# matchers are mutually exclusive so precedence cannot matter.
 	@fingerprinted path /_astro/*
 	@document not path /_astro/*
 	header @fingerprinted Cache-Control "public, max-age=31536000, immutable"
@@ -53,9 +32,6 @@ samholiday.co.uk {
 	log
 }
 
-# www currently resolves, so it cannot just be ignored — an unmatched host on
-# the shared edge fails the TLS handshake and Cloudflare surfaces that as a 525.
-# Redirect rather than drop the record, so existing links keep working.
 www.samholiday.co.uk {
 	redir https://samholiday.co.uk{uri} permanent
 }
