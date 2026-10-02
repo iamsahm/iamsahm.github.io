@@ -1,0 +1,37 @@
+# Deployed to /opt/edge/sites/samholiday.caddy by this repo's deploy workflow.
+# Content comes from /opt/edge/static/samholiday, mounted read-only at /srv.
+
+samholiday.co.uk {
+	encode gzip zstd
+
+	root * /srv/samholiday
+	file_server
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Frame-Options "DENY"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+
+		# style-src needs 'unsafe-inline' for the style="display: none"
+		# attributes in the markup. script-src stays 'self' only because
+		# astro.config.mjs sets assetsInlineLimit: 0 — without that, Astro
+		# inlines its module scripts and this blocks them.
+		# Enabling reCAPTCHA would also need www.google.com and www.gstatic.com.
+		Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'none'"
+	}
+
+	# Filenames under _astro/ carry a content hash, documents do not. The
+	# matchers are mutually exclusive so precedence cannot matter.
+	@fingerprinted path /_astro/*
+	@document not path /_astro/*
+	header @fingerprinted Cache-Control "public, max-age=31536000, immutable"
+	header @document Cache-Control "public, max-age=0, must-revalidate"
+
+	log
+}
+
+www.samholiday.co.uk {
+	redir https://samholiday.co.uk{uri} permanent
+}
