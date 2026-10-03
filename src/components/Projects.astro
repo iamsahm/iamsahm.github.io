@@ -45,7 +45,7 @@ const projects: Project[] = [
   <div class="carousel-container">
     <div class="nav-zone prev-zone">
       <button class="carousel-btn prev" aria-label="Previous project">
-        <span class="arrow">←</span>
+        <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
       </button>
     </div>
 
@@ -84,15 +84,23 @@ const projects: Project[] = [
 
     <div class="nav-zone next-zone">
       <button class="carousel-btn next" aria-label="Next project">
-        <span class="arrow">→</span>
+        <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
       </button>
     </div>
   </div>
 
-  <div class="carousel-dots">
-    {projects.map((_, index) => (
-      <button class="dot" data-index={index} aria-label={`Go to project ${index + 1}`}></button>
-    ))}
+  <div class="carousel-controls">
+    <button class="carousel-btn prev" aria-label="Previous project">
+      <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+    </button>
+    <div class="carousel-dots">
+      {projects.map((_, index) => (
+        <button class="dot" data-index={index} aria-label={`Go to project ${index + 1}`}></button>
+      ))}
+    </div>
+    <button class="carousel-btn next" aria-label="Next project">
+      <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+    </button>
   </div>
 </section>
 
@@ -100,8 +108,9 @@ const projects: Project[] = [
   const track = document.querySelector('.carousel-track') as HTMLElement;
   const container = document.querySelector('.carousel-container') as HTMLElement;
   const cards = document.querySelectorAll('.project-card');
-  const prevZone = document.querySelector('.prev-zone');
-  const nextZone = document.querySelector('.next-zone');
+  // Side zones on desktop, buttons beside the dots on mobile
+  const prevControls = document.querySelectorAll('.prev-zone, .carousel-controls .prev');
+  const nextControls = document.querySelectorAll('.next-zone, .carousel-controls .next');
   const dots = document.querySelectorAll('.dot');
   let currentIndex = 0;
   const total = cards.length;
@@ -110,19 +119,26 @@ const projects: Project[] = [
     // Each card is 85% + 5% margins = 90% per card
     const slideWidth = container.offsetWidth * 0.90;
     track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    cards.forEach((card, i) => {
+      card.classList.toggle('active', i === currentIndex);
+    });
     dots.forEach((dot, i) => {
       dot.classList.toggle('active', i === currentIndex);
     });
   }
 
-  prevZone?.addEventListener('click', () => {
-    currentIndex = (currentIndex - 1 + total) % total;
-    updateCarousel();
+  prevControls.forEach((control) => {
+    control.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + total) % total;
+      updateCarousel();
+    });
   });
 
-  nextZone?.addEventListener('click', () => {
-    currentIndex = (currentIndex + 1) % total;
-    updateCarousel();
+  nextControls.forEach((control) => {
+    control.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % total;
+      updateCarousel();
+    });
   });
 
   dots.forEach((dot) => {
@@ -169,6 +185,7 @@ const projects: Project[] = [
     justify-content: center;
     gap: var(--spacing-md);
     overflow: hidden;
+    container-type: inline-size;
   }
 
   .projects-header {
@@ -196,16 +213,19 @@ const projects: Project[] = [
   .carousel-container {
     display: block;
     width: 100%;
+    /* Cards are 85% of the container, so this caps them at the site content width */
+    max-width: calc(var(--max-width) / 0.85);
+    margin: 0 auto;
     position: relative;
     overflow: hidden;
   }
 
   .nav-zone {
+    display: none;
     position: absolute;
     top: 0;
     bottom: 0;
     width: 60px;
-    display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10;
@@ -240,22 +260,32 @@ const projects: Project[] = [
   }
 
   .carousel-btn .arrow {
+    width: 1em;
+    height: 1em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     color: rgba(0, 0, 0, 0.3);
     transition: color 0.2s ease;
   }
 
-  .nav-zone:hover .carousel-btn {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: transparent;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
+  /* Only on devices that can hover, so the style doesn't stick after a tap */
+  @media (hover: hover) {
+    .nav-zone:hover .carousel-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: transparent;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
 
-  .nav-zone:hover .carousel-btn .arrow {
-    color: var(--color-red);
-  }
+    .nav-zone:hover .carousel-btn .arrow {
+      color: var(--color-red);
+    }
 
-  .carousel-btn:hover {
-    background: white;
+    .carousel-btn:hover {
+      background: white;
+    }
   }
 
   .project-card {
@@ -269,6 +299,15 @@ const projects: Project[] = [
     box-sizing: border-box;
     width: 85%;
     flex-shrink: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Once the carousel hits its max width (900px / 0.85) the neighbouring cards
+     no longer reach the screen edge, so hide them rather than show a stray sliver */
+  @container (min-width: 1059px) {
+    .project-card:not(.active) {
+      opacity: 0;
+    }
   }
 
   .project-card:first-child {
@@ -357,6 +396,29 @@ const projects: Project[] = [
 
   .project-links .arrow {
     color: var(--color-red);
+  }
+
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+  }
+
+  .carousel-controls .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .nav-zone {
+      display: flex;
+    }
+
+    .carousel-controls .carousel-btn {
+      display: none;
+    }
   }
 
   .carousel-dots {
