@@ -99,8 +99,11 @@ const { title, description = "Software Engineer" } = Astro.props;
   }
 
   /* Sections - full height with scroll snap */
+  /* svh is the viewport with the mobile browser toolbars showing, so nothing
+     anchored to the bottom of a section ends up hidden behind them */
   section {
     min-height: 100vh;
+    min-height: 100svh;
     display: flex;
     color: var(--color-text-dark);
     justify-content: center;
