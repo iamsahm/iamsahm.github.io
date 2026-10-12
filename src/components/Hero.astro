@@ -96,11 +96,12 @@ const { name, tagline, interests = [] } = Astro.props;
   .header {
     background: var(--color-red);
     color: var(--color-text-light);
-    padding: var(--spacing-sm);
+    padding: 0 var(--spacing-sm);
     scroll-snap-align: start;
   }
 
   .header-inner {
+    height: var(--header-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -124,7 +125,10 @@ const { name, tagline, interests = [] } = Astro.props;
     background-color: var(--color-highlight);
   }
 
+  /* The header sits above the hero on first load, so together they fill the screen */
   .hero {
+    min-height: calc(100vh - var(--header-height));
+    min-height: calc(100svh - var(--header-height));
     background: var(--color-yellow);
     position: relative;
     flex-direction: column;
