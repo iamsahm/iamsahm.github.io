@@ -74,14 +74,24 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || "";
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: var(--spacing-lg);
     scroll-snap-align: end;
   }
 
   .back-to-top {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
     color: var(--color-text-light);
+  }
+
+  /* Inline rather than flex, so when the text wraps on a narrow screen the arrow
+     stays tucked in after "top" instead of drifting towards the next item */
+  .back-to-top .arrow {
+    margin-left: 0.25em;
+  }
+
+  @media (min-width: 600px) {
+    .back-to-top .arrow {
+      margin-left: var(--spacing-xs);
+    }
   }
 
   .back-to-top .arrow {
@@ -90,5 +100,26 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || "";
 
   .copyright {
     margin: 0;
+  }
+
+  /* Three items don't fit across a phone, so the copyright drops to its own row
+     and each item stays on one line, so it's clear what the arrow belongs to */
+  @media (max-width: 599px) {
+    .footer {
+      flex-wrap: wrap;
+      row-gap: var(--spacing-sm);
+    }
+
+    .back-to-top,
+    .copyright {
+      white-space: nowrap;
+    }
+
+    .copyright {
+      order: 1;
+      width: 100%;
+      text-align: center;
+      font-size: var(--font-size-small);
+    }
   }
 </style>

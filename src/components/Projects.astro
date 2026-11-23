@@ -240,7 +240,7 @@ const projects: Project[] = [
   .projects-note {
     margin: var(--spacing-sm) auto 0;
     font-size: var(--font-size-small);
-    max-width: 500px;
+    max-width: 36em;
   }
 
   .projects-note a {
@@ -494,6 +494,15 @@ const projects: Project[] = [
     .project-card {
       flex-direction: row;
       align-items: center;
+    }
+
+    .project-card p,
+    .project-links a {
+      font-size: var(--font-size-body-lg);
+    }
+
+    .projects-note {
+      font-size: var(--font-size-body);
     }
 
     .project-image {
